@@ -15,13 +15,14 @@ class RecipeController extends Controller
 
     public function create(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'instructions' => 'required',
-            'cuisine_id' => 'required|exists:cuisines,id'
+        $user_id = Auth::user();
+        $data = [
+            'name' => $request->name,
+            'ingredients' =>$request->ingredients,
+            'cuisine_id' => $request->cuisine_id,
+            'user_id' => $user_id,
            
-        ]);
+        ];
         $data['user_id'] =  Auth::user();
 
         $recipe = Recipe::createRecipe($data);

@@ -39,9 +39,7 @@ class Recipe extends Model
     {
         $recipe = new Recipe();
     
-        $recipe->title = $data['title'];
-        $recipe->description = $data['description'];
-        $recipe->instructions = $data['instructions'];
+        $recipe->name = $data['name'];
         $recipe->user_id = $data['user_id'];
         $recipe->cuisine_id = $data['cuisine_id'];
     
