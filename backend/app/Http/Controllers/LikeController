@@ -1,0 +1,45 @@
+<?php
+use App\Models\Like;
+use App\Models\Recipe;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
+class LikeController extends Controller
+{
+    public function addLike(Request $request)
+    {
+       
+        $userId =  Auth::user();
+
+        $like = Like::create([
+            'recipe_id' => $request->recipeId,
+            'user_id' => $userId,
+        ]);
+
+        return response()->json([
+            'message' => 'Like added successfully.',
+            'like' => $like,
+        ]);
+    }
+    public function deleteLike(Request $request)
+    {
+        $userId =  Auth::user();
+
+        $like = Like::where('id', $request->recipeId)
+                    ->where('user_id', $userId)
+                    ->first();
+
+        if (!$like) {
+            return response()->json([
+                'message' => 'Like not found or unauthorized.',
+            ], 404);
+        }
+
+        $like->delete();
+
+        return response()->json([
+            'message' => 'Like deleted successfully.',
+        ]);
+    }
+}

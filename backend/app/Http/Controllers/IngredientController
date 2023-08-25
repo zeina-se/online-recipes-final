@@ -1,0 +1,34 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Modules\Ingredient\IngredientModule;
+use App\Models\Ingredient;
+use Illuminate\Http\Request;
+
+class IngredientController extends Controller
+{
+    public function add(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $ingredientModule = new IngredientModule();
+        $ingredient = $ingredientModule->createIngredient($validatedData);
+
+        return response()->json([
+            'message' => 'Ingredient created successfully',
+            'ingredient' => $ingredient,
+        ]);
+    }
+
+   
+    public function getAll()
+    {
+        $ingredients = Ingredient::all();
+    
+        return response()->json([
+            'ingredients' => $ingredients,
+        ]);
+    }
+}
